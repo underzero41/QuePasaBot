@@ -60,11 +60,15 @@ const start = async () => {
         if (data === '/again') {
             return startGame(chatId)
         }
-        if (data === chats[chatId]) {
-            return await bot.sendMessage(chatId, `Поздравляю, ты угадал цифру ${chats[chatId]}`, againOption)
+        const user = await UserModel.findOne({chatId})
+        if (data == chats[chatId]) {
+            user.right += 1;
+            await bot.sendMessage(chatId, `Поздравляю, ты угадал цифру ${chats[chatId]}`, againOption)
         } else {
-            bot.sendMessage(chatId, `К сожелению ты не угадал цифру - ${chats[chatId]}`, againOption)
+            user.wrong += 1; 
+            await bot.sendMessage(chatId, `К сожелению ты не угадал цифру - ${chats[chatId]}`, againOption)
         }
+        await user.save();
     })
 }
 start()     
