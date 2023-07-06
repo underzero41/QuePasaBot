@@ -2,9 +2,8 @@ const TelegramApi = require('node-telegram-bot-api')
 const{gameOption, againOption} = require('./options')
 const sequelize = require('./db')
 const UserModel = require('./models')
-const User = require('./models')
 const token = '6010867227:AAGT9Q4-A2MnIL7ie8_2bypLgOuQ_OALdLA'
-
+const bot = new TelegramApi(token, {polling: true})
 const chats = {}
 
 
@@ -24,7 +23,6 @@ const start = async () => {
         console.log('Подключение к БД сломалось', error)
     }
     
-    const bot = new TelegramApi(token, { polling: true })
     bot.setMyCommands([
         { command: '/start', description: 'Начальное приветствие' },
         { command: '/info', description: 'Получить информацию о пользователе' },
